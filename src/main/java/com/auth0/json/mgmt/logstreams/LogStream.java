@@ -2,6 +2,7 @@ package com.auth0.json.mgmt.logstreams;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +22,8 @@ public class LogStream {
     private String status;
     @JsonProperty("sink")
     private Map<String, Object> sink;
+    @JsonProperty("filters")
+    private List<LogStreamFilter> filters;
 
     /**
      * Creates a new LogStream instance and sets the type, which cannot be changed once set.
@@ -118,5 +121,15 @@ public class LogStream {
     @JsonProperty("sink")
     public void setSink(Map<String, Object> sink) {
         this.sink = sink;
+    }
+
+    @JsonProperty("filters")
+    public List<LogStreamFilter> getFilters() {
+        return filters;
+    }
+
+    @JsonProperty("filters")
+    public void setFilters(List<LogStreamFilter> filters) {
+        this.filters = filters;
     }
 }
