@@ -369,8 +369,18 @@ public class ManagementAPI {
      */
     public static class Builder {
         private final String domain;
-        private final String apiToken;
+        private final TokenProvider tokenProvider;
         private Auth0HttpClient httpClient = DefaultHttpClient.newBuilder().build();
+
+        /**
+         * Create a new Builder
+         * @param domain the domain of the tenant.
+         * @param tokenProvider a provider to get API tokens used to make requests to the Auth0 Management API.
+         */
+        public Builder(String domain, TokenProvider tokenProvider) {
+            this.domain = domain;
+            this.tokenProvider = tokenProvider;
+        }
 
         /**
          * Create a new Builder
@@ -379,7 +389,7 @@ public class ManagementAPI {
          */
         public Builder(String domain, String apiToken) {
             this.domain = domain;
-            this.apiToken = apiToken;
+            this.tokenProvider = SimpleTokenProvider.create(apiToken);
         }
 
         /**
@@ -398,7 +408,7 @@ public class ManagementAPI {
          * @return the configured {@code ManagementAPI} instance.
          */
         public ManagementAPI build() {
-            return new ManagementAPI(domain, SimpleTokenProvider.create(apiToken), httpClient);
+            return new ManagementAPI(domain, tokenProvider, httpClient);
         }
     }
 }
